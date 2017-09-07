@@ -3,6 +3,8 @@ package org.metaborg.spoofax.maven.plugin.mojo.language.manual;
 import java.io.IOException;
 import java.util.Collection;
 
+import javax.annotation.Nullable;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
@@ -84,16 +86,20 @@ public class GenerateProjectMojo extends AbstractSpoofaxMojo {
 
                 final LangSpecGenerator newGenerator = new LangSpecGenerator(settings);
                 newGenerator.generateAll();
-                SdfVersion version;
-
+                final @Nullable SdfVersion version;
+                final boolean enabled;
                 if(settings.syntaxType == SyntaxType.SDF2) {
                     version = SdfVersion.sdf2;
-                } else {
+                    enabled = true;
+                } else if(settings.syntaxType == SyntaxType.SDF3) {
                     version = SdfVersion.sdf3;
+                    enabled = true;
+                } else {
+                    version = null;
+                    enabled = false;
                 }
-
                 final ContinuousLanguageSpecGenerator generator =
-                    new ContinuousLanguageSpecGenerator(settings.generatorSettings, version);
+                    new ContinuousLanguageSpecGenerator(settings.generatorSettings, enabled, version);
                 generator.generateAll();
             } catch(IOException ex) {
                 throw new MojoFailureException("Failed to generate project files", ex);

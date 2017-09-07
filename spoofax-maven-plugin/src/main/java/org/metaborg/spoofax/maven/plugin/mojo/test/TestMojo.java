@@ -26,11 +26,13 @@ public class TestMojo extends AbstractSpoofaxMojo {
     private static final ILogger logger = LoggerUtils.logger(TestMojo.class);
 
     @Parameter(property = "spoofax.test.skip", defaultValue = "false") boolean skip;
+    @Parameter(defaultValue = "${maven.test.skip}", readonly = true) private boolean mvnTestSkip;
+    @Parameter(defaultValue = "${skipTests}", readonly = true) private boolean mvnSkipTests;
+    
     @Parameter(property = "languageUnderTest", required = true) String languageUnderTest;
 
-
     @Override public void execute() throws MojoFailureException, MojoExecutionException {
-        if(skip || skipAll) {
+        if(skip || mvnTestSkip || mvnSkipTests || skipAll) {
             return;
         }
         super.execute();

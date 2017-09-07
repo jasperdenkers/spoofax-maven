@@ -72,6 +72,10 @@ public class MetaborgModelReader extends ModelReaderSupport {
         }
 
         final ILanguageSpecConfig config = configRequest.config();
+        if(config == null) {
+            logger.error("Could not retrieve language specification configuration from project location {}", rootDir);
+            throw new IOException("Could not read project configuration.");
+        }
 
         if(config.useBuildSystemSpec()) {
             final File pom = xmlMapping.locatePom(root);

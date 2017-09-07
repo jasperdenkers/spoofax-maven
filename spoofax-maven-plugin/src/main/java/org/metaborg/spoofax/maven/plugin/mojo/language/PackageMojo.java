@@ -15,6 +15,7 @@ import org.metaborg.core.MetaborgException;
 import org.metaborg.core.language.ILanguageComponent;
 import org.metaborg.core.language.ILanguageDiscoveryRequest;
 import org.metaborg.spoofax.maven.plugin.SpoofaxInit;
+import org.metaborg.spoofax.meta.core.build.SpoofaxLangSpecCommonPaths;
 
 import com.google.common.collect.Iterables;
 
@@ -32,7 +33,8 @@ public class PackageMojo extends AbstractSpoofaxLanguageMojo {
     @Override public void execute() throws MojoFailureException, MojoExecutionException {
         super.execute();
 
-        final FileObject spxArchiveFile = paths().spxArchiveFile(languageSpec().config().identifier().toFileString());
+        final SpoofaxLangSpecCommonPaths paths = new SpoofaxLangSpecCommonPaths(basedirLocation());
+        final FileObject spxArchiveFile = paths.spxArchiveFile(languageSpec().config().identifier().toFileString());
         final File localSpxArchiveFile = SpoofaxInit.spoofax().resourceService.localFile(spxArchiveFile);
         mavenProject().getArtifact().setFile(localSpxArchiveFile);
 

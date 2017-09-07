@@ -33,7 +33,6 @@ import org.metaborg.core.resource.ResourceChange;
 import org.metaborg.core.resource.ResourceChangeKind;
 import org.metaborg.core.resource.ResourceUtils;
 import org.metaborg.spoofax.core.resource.SpoofaxIgnoresSelector;
-import org.metaborg.spoofax.meta.core.build.LangSpecCommonPaths;
 import org.metaborg.util.iterators.Iterables2;
 
 import com.google.common.collect.Iterables;
@@ -54,7 +53,6 @@ public abstract class AbstractSpoofaxMojo extends AbstractMojo {
 
     private FileObject basedirLocation;
     private @Nullable IProject metaborgProject;
-    private LangSpecCommonPaths paths;
 
 
     private static boolean getContextBool(MavenProject project, String id) throws MojoExecutionException {
@@ -99,8 +97,6 @@ public abstract class AbstractSpoofaxMojo extends AbstractMojo {
         } else {
             metaborgProject = SpoofaxInit.projectService().get(basedirLocation);
         }
-
-        paths = new LangSpecCommonPaths(basedirLocation);
     }
 
 
@@ -110,10 +106,6 @@ public abstract class AbstractSpoofaxMojo extends AbstractMojo {
 
     public FileObject basedirLocation() {
         return basedirLocation;
-    }
-
-    public LangSpecCommonPaths paths() {
-        return paths;
     }
 
 
